@@ -1,0 +1,64 @@
+services:
+  # --- 1. Frontend Service (Vite) ---
+  frontend:
+    container_name: fe-dev
+    image: node:22-alpine
+    working_dir: /app/frontend
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "5173:5173"
+    volumes:
+      # Sinkronkan folder lokal kita ke dalam container
+      - ./frontend:/app/frontend
+      # Isolasi node_modules di dalam container (untuk performa)
+      - /app/frontend/node_modules
+
+  # --- 2. Backend Service (Hapi.js) ---
+  backend:
+    container_name: be-dev
+    image: node:22-alpine
+    working_dir: /app/backend
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+      - /app/backend/node_modules
+    environment:
+      # Ini adalah cara backend terhubung ke DB (pakai nama service 'db')
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    depends_on:
+      - db # Bilang ke Docker untuk menyalakan DB dulu
+
+  # --- 3. ML Service (FastAPI) ---
+  ml_service:
+    container_name: ml-dev
+    # Build dari Dockerfile yang kita buat di folder ml_service
+    build: ./ml_service
+    working_dir: /app
+    # Tambahkan --reload untuk hot-reload Python
+    command: uvicorn app:app --host 0.0.0.0 --port 5000 --reload
+    ports:
+      - "5000:5000" # Memetakan port FastAPI
+    volumes:
+      - ./ml_service:/app # Sinkronkan kode ML untuk hot-reload
+
+  # --- 4. Database Service (Postgres) ---
+  db:
+    container_name: db-dev
+    image: postgres:18-alpine
+    environment:
+      # Kredensial ini akan dipakai oleh service 'backend'
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      # Buka port 5433 ke lokal agar bisa diakses DBeaver/TablePlus
+      - "5433:5432"
+    volumes:
+      # Ini adalah "hard drive" permanen untuk data DB Anda
+      - postgres_data:/var/lib/postgresql/data
+
+# Definisikan volume permanen
+volumes:
+  postgres_data:
