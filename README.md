@@ -1,35 +1,55 @@
-# Proyek Capstone: AI Learning Insight (Tim A25-CS212)
+<div align="center">
 
-Selamat datang di repositori resmi untuk proyek Capstone tim **A25-CS212**. Repositori ini adalah pusat untuk semua kode sumber, dokumentasi, dan aset terkait proyek kita.
+# AI Learning Insight
 
-Tujuan dari proyek ini adalah merancang dan membangun fitur **"AI Learning Insight"**. Fitur ini akan menganalisis data aktivitas belajar siswa untuk menghasilkan wawasan (insight) yang dipersonalisasi guna mendukung progres belajar mereka.
+**Proyek Capstone Tim A25-CS212**
+
+Platform berbasis AI yang menganalisis aktivitas belajar siswa untuk memberikan wawasan personal tentang pola belajar, rekomendasi konten, dan prediksi performa. Sistem ini membantu siswa memahami gaya belajar mereka dan mendapatkan panduan yang disesuaikan untuk meningkatkan hasil belajar.
+
+</div>
 
 ---
 
-## Tech Stack
+## 👥 Team Members
+
+| No  | Cohort ID   | Nama                                              | Role                      | GitHub                                             |
+| --- | ----------- | ------------------------------------------------- | ------------------------- | -------------------------------------------------- |
+| 1   | R014D5Y0809 | I Putu Arya Putra Raditya                         | Backend Developer         | [@dektu](https://github.com/dektu)                 |
+| 2   | R014D5X1590 | Pyari Visvapujita Devi Dasi                       | Frontend Developer        | [@pyarivisva](https://github.com/pyarivisva)       |
+| 3   | M014D5X0932 | Kadek Indri Anisa Putri                           | Machine Learning Engineer | [@indrianisaptr](https://github.com/indrianisaptr) |
+| 4   | M014D5X0780 | I Gusti Ayu Tiksna Apsari                         | Machine Learning Engineer | [@tiksnaapsr](https://github.com/tiksnaapsr)       |
+| 5   | R014D5Y0776 | I Gusti Agung Ngurah Lucien Yudistira Purnawarman | Fullstack Developer       | [@lucienthewizz](https://github.com/lucienthewizz) |
+
+---
+
+## 🛠️ Tech Stack
 
 Proyek ini menggunakan arsitektur _monorepo_ yang mengintegrasikan beberapa layanan:
 
-- **Frontend:** Vite (React)
-- **Backend:** Hapi.js (Node.js)
-- **Machine Learning:** FastAPI (Python)
-- **Database:** PostgreSQL
-- **Environment:** Docker Compose
+- **Frontend:** ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+
+- **Backend:** ![Hapi.js](https://img.shields.io/badge/Hapi.js-F26D21?style=for-the-badge&logo=hapi&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+
+- **Machine Learning:** ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+
+- **Database:** ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+
+- **Environment:** ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 ---
 
-## System Requirements
+## 📋 System Requirements
 
 Sebelum mulai, pastikan perangkat kamu telah memenuhi persyaratan berikut:
 
-1.  **Git:** Diperlukan untuk kloning dan manajemen versi kode.
-2.  **Docker Desktop:** Diperlukan untuk menjalankan lingkungan pengembangan.
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker_Desktop-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 > **Catatan:** Kamu **tidak perlu** menginstal Node.js, Python, atau PostgreSQL secara manual. Seluruh lingkungan telah dikelola sepenuhnya oleh Docker.
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
 Berikut adalah langkah-langkah untuk menjalankan seluruh aplikasi di lingkungan pengembangan lokal.
 
@@ -47,7 +67,7 @@ cd DC-08-AI-Learning-Insight
 Layanan kita memerlukan kredensial untuk terhubung ke database. Informasi ini harus disimpan dalam file `.env`.
 
 - Buat file baru bernama `.env` di direktori root proyek.
-- Salin konten di bawah ini ke dalam file `.env` kamu. Untuk mendapatkan `POSTGRES_PASSWORD`, silakan hubungi ketua tim.
+- Salin konten di bawah ini ke dalam file `.env` kamu. Untuk mendapatkan `POSTGRES_PASSWORD`, silakan hubungi Fullstack Developer.
 
 ```properties
 # File ini berisi variabel lingkungan dan kredensial rahasia.
@@ -55,7 +75,7 @@ Layanan kita memerlukan kredensial untuk terhubung ke database. Informasi ini ha
 
 # Kredensial untuk Database PostgreSQL
 POSTGRES_USER=a25_cs212
-POSTGRES_PASSWORD= # Minta dari ketua tim
+POSTGRES_PASSWORD= # Minta dari Fullstack Developer
 POSTGRES_DB=ai_learning_insight
 ```
 
@@ -71,7 +91,7 @@ Perintah ini akan menjalankan semua kontainer di latar belakang. Proses inisiali
 
 ---
 
-## Service Verification
+## ✅ Service Verification
 
 Setelah proses `docker-compose up` selesai, kamu dapat memverifikasi bahwa setiap layanan berjalan dengan mengakses URL berikut:
 
@@ -82,12 +102,12 @@ Setelah proses `docker-compose up` selesai, kamu dapat memverifikasi bahwa setia
   - **Host:** `localhost`
   - **Port:** `5433`
   - **User:** `a25_cs212`
-  - **Password:** (Gunakan password dari ketua tim)
+  - **Password:** (Gunakan password dari Fullstack Developer)
   - **Database:** `ai_learning_insight`
 
 ---
 
-### Useful Docker Commands
+## 🔧 Useful Docker Commands
 
 - **Untuk menghentikan semua layanan:**
   ```bash
@@ -104,7 +124,7 @@ Setelah proses `docker-compose up` selesai, kamu dapat memverifikasi bahwa setia
 
 ---
 
-### Running Specific Services
+## 🎯 Running Specific Services
 
 Jika kamu hanya ingin menjalankan atau memperbarui satu layanan spesifik tanpa memengaruhi yang lain, kamu bisa menyebutkan nama layanannya. Ini sangat berguna jika kamu hanya membuat perubahan di satu bagian saja (misalnya, hanya di frontend).
 
