@@ -30,7 +30,7 @@ Proyek ini menggunakan arsitektur _monorepo_ yang mengintegrasikan beberapa laya
 
 - **Backend:** ![Hapi.js](https://img.shields.io/badge/Hapi.js-F26D21?style=for-the-badge&logo=hapi&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 
-- **Machine Learning:** ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+- **Machine Learning:** ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 
 - **Database:** ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
@@ -97,7 +97,7 @@ Setelah proses `docker-compose up` selesai, kamu dapat memverifikasi bahwa setia
 
 - **Frontend (React):** [http://localhost:5173](http://localhost:5173)
 - **Backend (Hapi.js):** [http://localhost:8000](http://localhost:8000)
-- **ML Service (FastAPI):** [http://localhost:5000/docs](http://localhost:5000/docs)
+- **ML Service (Flask):** [http://localhost:5000](http://localhost:5000)
 - **Database (Postgres):** Dapat diakses melalui klien database dengan konfigurasi:
   - **Host:** `localhost`
   - **Port:** `5433`
