@@ -1,5 +1,4 @@
-fastapi
-uvicorn[standard]
+Flask
 scikit-learn
 pandas
 # ...tambahkan library lain dari Colab di sini...

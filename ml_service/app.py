@@ -1,17 +1,18 @@
-from fastapi import FastAPI
-import uvicorn
+from flask import Flask, request, jsonify
 
-app = FastAPI()
+app = Flask(__name__)
 
-@app.get("/")
+@app.route("/", methods=["GET"])
 def read_root():
-    return {"message": "Hello from ML Service API!"}
+    return jsonify({"message": "Hello from ML Service API!"})
 
-@app.post("/predict")
+@app.route("/predict", methods=["POST"])
 def predict():
-    # TODO: Tim ML akan load model .pkl di sini
-    # dan mengembalikan hasil prediksi
-    return {"prediction": "consistent_learner"}
+    # Tim ML akan menambahkan logic di sini
+    # data = request.json
+    return jsonify({"prediction": "consistent_learner"})
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+    # Jalankan server Flask
+    # host='0.0.0.0' penting agar bisa diakses Docker
+    app.run(host="0.0.0.0", port=5000, debug=True)

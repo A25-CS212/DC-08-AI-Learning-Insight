@@ -33,15 +33,15 @@ services:
   # --- 3. ML Service (FastAPI) ---
   ml_service:
     container_name: ml-dev
-    # Build dari Dockerfile yang kita buat di folder ml_service
-    build: ./ml_service
+    build: ./ml_service # Akan build ulang karena requirements.txt berubah
     working_dir: /app
-    # Tambahkan --reload untuk hot-reload Python
-    command: uvicorn app:app --host 0.0.0.0 --port 5000 --reload
+    # 'flask run' adalah perintah baru.
+    # '--debug' akan mengaktifkan hot-reload
+    command: flask run --host=0.0.0.0 --port=5000 --debug
     ports:
-      - "5000:5000" # Memetakan port FastAPI
+      - "5000:5000"
     volumes:
-      - ./ml_service:/app # Sinkronkan kode ML untuk hot-reload
+      - ./ml_service:/app
 
   # --- 4. Database Service (Postgres) ---
   db:
