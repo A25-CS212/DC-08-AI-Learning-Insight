@@ -1,0 +1,20 @@
+{
+  "label": "fast learner",
+  "probabilities": {
+    "fast_learner": 0.72,
+    "consistent_learner": 0.18,
+    "reflective_learner": 0.10
+  },
+  "metrics_current_week": {
+    "avg_exam_score": 88.5,
+    "exam_count": 4,
+    "activity_count": 12,
+    "completion_count": 10
+  },
+  "progress": {
+    "exam_improvement": 6.3,
+    "activity_improvement": 3,
+    "completion_improvement": 2
+  },
+  "feedback": "Kamu menunjukkan progres pesat minggu ini. Pertahankan konsistensi dengan mencoba pola belajar berbasis challenge kecil."
+}
