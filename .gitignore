@@ -3,7 +3,10 @@
 # ===================================================================
 # Jangan pernah commit file environment
 .env
-.env.*
+.env.local
+.env.*.local
+
+# allow .env.example untuk contoh konfigurasi
 !.env.example
 
 # ===================================================================

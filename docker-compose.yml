@@ -1,5 +1,7 @@
 services:
-  # --- 1. Frontend Service (Vite) ---
+  # ============================================
+  # 1. FRONTEND SERVICE (Vite + React)
+  # ============================================
   frontend:
     container_name: fe-dev
     image: node:22-alpine
@@ -8,57 +10,101 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      # Sinkronkan folder lokal kita ke dalam container
+      # Sinkronkan folder lokal ke container
       - ./frontend:/app/frontend
       # Isolasi node_modules di dalam container (untuk performa)
       - /app/frontend/node_modules
+    environment:
+      # Frontend Configuration
+      - VITE_API_URL=${VITE_API_URL}
 
-  # --- 2. Backend Service (Hapi.js) ---
+  # ============================================
+  # 2. BACKEND SERVICE (Hapi.js + PostgreSQL)
+  # ============================================
   backend:
     container_name: be-dev
     image: node:22-alpine
     working_dir: /app/backend
-    command: sh -c "npm install && npm run dev"
+    # Urutan eksplisit: install → migrate → dev
+    command: >
+      sh -c "
+      npm install &&
+      npm run migrate &&
+      npm run dev
+      "
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app/backend
       - /app/backend/node_modules
     environment:
-      # Ini adalah cara backend terhubung ke DB (pakai nama service 'db')
+      # Database Connection String
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      # Database Credentials (untuk migration)
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      # Backend Configuration
+      - PORT=${PORT}
+      - HOST=${HOST}
+      - NODE_ENV=${NODE_ENV}
+      # JWT Authentication & Security
+      - ACCESS_TOKEN_KEY=${ACCESS_TOKEN_KEY}
+      - REFRESH_TOKEN_KEY=${REFRESH_TOKEN_KEY}
+      - ACCESS_TOKEN_AGE=${ACCESS_TOKEN_AGE}
+      - BCRYPT_ROUNDS=${BCRYPT_ROUNDS}
     depends_on:
-      - db # Bilang ke Docker untuk menyalakan DB dulu
+      db:
+        condition: service_healthy # Tunggu sampai DB benar-benar siap
 
-  # --- 3. ML Service (FastAPI) ---
+  # ============================================
+  # 3. ML SERVICE (Flask + Scikit-learn)
+  # ============================================
   ml_service:
     container_name: ml-dev
-    build: ./ml_service # Akan build ulang karena requirements.txt berubah
+    build:
+      context: ./ml_service
+      dockerfile: Dockerfile
     working_dir: /app
-    # 'flask run' adalah perintah baru.
-    # '--debug' akan mengaktifkan hot-reload
+    # Flask run dengan debug mode untuk hot-reload
     command: flask run --host=0.0.0.0 --port=5000 --debug
     ports:
       - "5000:5000"
     volumes:
       - ./ml_service:/app
+    environment:
+      # ML Service Configuration
+      - FLASK_ENV=${FLASK_ENV}
+      - FLASK_DEBUG=${FLASK_DEBUG}
+      - MODEL_PATH=${MODEL_PATH}
 
-  # --- 4. Database Service (Postgres) ---
+  # ============================================
+  # 4. DATABASE SERVICE (PostgreSQL)
+  # ============================================
   db:
     container_name: db-dev
     image: postgres:18-alpine
     environment:
-      # Kredensial ini akan dipakai oleh service 'backend'
+      # Kredensial database
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      # Buka port 5433 ke lokal agar bisa diakses DBeaver/TablePlus
+      # Port eksternal:internal (akses dari DBeaver atau pgAdmin)
       - "5433:5432"
     volumes:
-      # Ini adalah "hard drive" permanen untuk data DB Anda
+      # Volume permanen untuk data database
       - postgres_data:/var/lib/postgresql/data
+    # Healthcheck: pastikan DB siap sebelum backend start
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-# Definisikan volume permanen
+# ============================================
+# VOLUMES (Penyimpanan Permanen)
+# ============================================
 volumes:
   postgres_data:
+    driver: local

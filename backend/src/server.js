@@ -40,7 +40,7 @@ const init = async () => {
   server.route({
     method: "GET",
     path: "/",
-    handler: (request, h) => {
+    handler: () => {
       return { message: "Hello from Hapi.js Backend!" };
     },
   });
