@@ -1,11 +1,24 @@
-const App = () => {
-  return (
-    <div className="App flex justify-center items-center min-h-screen">
-      <h1 className="text-3xl font-bold text-center">
-        Hello, AI Learning Insight!
-      </h1>
-    </div>
-  );
-};
+import { Route, Routes } from 'react-router-dom';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import AppLayout from './layouts/AppLayout';
+import ProtectedRoute from './layouts/ProtectedRoute';
 
-export default App;
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <AppLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Dashboard />} />
+
+      </Route>
+    </Routes>
+  );
+}
