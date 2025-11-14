@@ -2,11 +2,13 @@ import { Info } from 'lucide-react';
 import RadarChart from '../charts/RadarChart';
 import { mockChartData } from '../../services/mockApi';
 import { useTheme } from '../../hooks/useTheme';
+import { useLocalization } from '../../hooks/useLocalization';
 import { useMemo } from 'react';
 import { mlClusterData } from '../../services/mlClusterData';
 
 export default function AnalysisCard() {
   const { theme } = useTheme();
+  const { t } = useLocalization();
 
   const clusterIdToShow = 0;
 
@@ -23,18 +25,27 @@ export default function AnalysisCard() {
       : 'rgba(250, 249, 246, 0.5)'; // #FAF9F6 @ 50%
 
     const fillThisWeek = 'rgba(29, 78, 216, 0.5)'; // #1D4ED8 @ 50%
+
+    const translatedLabels = [
+      t.dashboard.chartLabels.speed,
+      t.dashboard.chartLabels.completion,
+      t.dashboard.chartLabels.consistency,
+      t.dashboard.chartLabels.persistence,
+      t.dashboard.chartLabels.activity,
+    ];
+
     return {
-      labels: mockChartData.radar.labels,
+      labels: translatedLabels,
       datasets: [
         {
-          label: 'Minggu Lalu',
+          label: t.dashboard.lastWeek,
           data: mockChartData.radar.datasets[0].data,
           borderColor: colorLastWeek,
           backgroundColor: fillLastWeek,
           borderWidth: 2,
         },
         {
-          label: 'Minggu Ini',
+          label: t.dashboard.thisWeek,
           data: mockChartData.radar.datasets[1].data,
           borderColor: colorThisWeek,
           backgroundColor: fillThisWeek,
@@ -42,12 +53,12 @@ export default function AnalysisCard() {
         },
       ],
     };
-  }, [theme]);
+  }, [theme, t]);
 
   return (
     <div className="rounded-xl bg-white p-6 shadow-md dark:bg-dark-background-card">
       <h3 className="mb-4 text-3xl font-bold text-dark-blue dark:text-white">
-        Analisis Pola Belajar
+        {t.dashboard.analysisTitle}
       </h3>
 
       {/* Info Box */}
@@ -63,7 +74,7 @@ export default function AnalysisCard() {
           </div>
 
           <div>
-            <p className="font-bold text-2xl text-dark-blue dark:text-white">Anda adalah seorang {clusterInfo.label}</p>
+            <p className="font-bold text-2xl text-dark-blue dark:text-white">{t.dashboard.youAreA}{' '} {t.dashboard[clusterInfo.label]}</p>
             <p className="text-sm text-dark-blue dark:text-white">{clusterInfo.description}</p>
           </div>
         </div>

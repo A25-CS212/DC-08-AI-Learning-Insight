@@ -1,8 +1,10 @@
 import { useAuth } from '../../hooks/useAuth';
 import { Calendar } from 'lucide-react';
+import { useLocalization } from '../../hooks/useLocalization';
 
 export default function WelcomeBanner() {
   const { user } = useAuth();
+  const { t, lang } = useLocalization();
   const now = new Date();
 
   const dateOptions = {
@@ -10,13 +12,15 @@ export default function WelcomeBanner() {
     day: 'numeric',
     year: 'numeric',
   };
-  const formattedDay = new Intl.DateTimeFormat('en-US', dateOptions).format(now);
+
+  const locale = lang === 'ID' ? 'id-ID' : 'en-US';
+  const formattedDay = new Intl.DateTimeFormat(locale, dateOptions).format(now);
   const timeOptions = {
     hour: 'numeric',
     minute: 'numeric',
     hour12: true
   };
-  const formattedTime = new Intl.DateTimeFormat('en-US', timeOptions).format(now).toLowerCase();
+  const formattedTime = new Intl.DateTimeFormat(locale, timeOptions).format(now).toLowerCase();
   const dynamicDate = `${formattedDay} ${formattedTime}`;
 
   return (
@@ -29,8 +33,8 @@ export default function WelcomeBanner() {
         </div>
 
         <div>
-          <h2 className="text-5xl font-bold">Halo, {user?.name || 'Pengguna'}</h2>
-          <p className="mt-1 text-white">Lorem ipsum is simply dummy text</p>
+          <h2 className="text-5xl font-bold">{t.welcome.greeting}, {user?.name}</h2>
+          <p className="mt-1 text-white">{t.welcome.desc}</p>
         </div>
       </div>
 

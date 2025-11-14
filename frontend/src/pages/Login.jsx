@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import Header from '../components/common/Navbar';
 import { Eye, EyeOff } from 'lucide-react';
+import { useLocalization } from '../hooks/useLocalization';
 
 export default function Login() {
   const [email, setEmail] = useState('lorem@gmail.com');
   const [password, setPassword] = useState('password');
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
+  const { t } = useLocalization();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,7 +28,7 @@ export default function Login() {
           className="w-full max-w-sm rounded-xl"
         >
           <h1 className="mb-16 text-center text-4xl font-bold text-dark-blue dark:text-white">
-            Masuk
+            {t.login.title}
           </h1>
 
           {/* Email */}
@@ -35,7 +37,7 @@ export default function Login() {
               htmlFor="email"
               className="mb-1 block text-sm font-medium text-dark-blue dark:text-white"
             >
-              Email
+              {t.login.email}
             </label>
             <input
               id="email"
@@ -52,7 +54,7 @@ export default function Login() {
               htmlFor="password"
               className="mb-1 block text-sm font-medium text-dark-blue dark:text-white"
             >
-              Kata Sandi
+              {t.login.password}
             </label>
             <div className="relative">
               <input
@@ -83,7 +85,7 @@ export default function Login() {
               htmlFor="remember-me"
               className="ml-2 block text-sm text-gray-900 dark:text-gray-300"
             >
-              Ingat saya
+              {t.login.remember}
             </label>
           </div>
 
@@ -92,7 +94,7 @@ export default function Login() {
             type="submit"
             className="w-full rounded-md bg-primary-blue p-3 text-white shadow-md hover:bg-dark-blue focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            Masuk
+            {t.login.button}
           </button>
         </form>
       </main>

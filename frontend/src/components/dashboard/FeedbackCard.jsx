@@ -1,4 +1,5 @@
 import { Scale, TrendingUp, TrendingDown } from 'lucide-react';
+import { useLocalization } from '../../hooks/useLocalization';
 
 const iconMap = {
   positive: (
@@ -19,6 +20,7 @@ const iconMap = {
 };
 
 export default function FeedbackCard() {
+  const { t } = useLocalization();
   // Nanti ganti
   const feedbacks = [
     { type: 'neutral', text: 'Ada peningkatan besar pada Consistency Score dan Completion Score. Pola belajar Anda semakin teratur dan efisien. (10 data)' },
@@ -28,7 +30,7 @@ export default function FeedbackCard() {
 
   return (
     <div className="rounded-xl bg-white p-6 shadow-md dark:bg-dark-background-card">
-      <h3 className="mb-4 text-3xl font-bold text-dark-blue dark:text-white">Feedback</h3>
+      <h3 className="mb-4 text-3xl font-bold text-dark-blue dark:text-white">{t.dashboard.feedbackTitle}</h3>
 
       <ul className="space-y-4">
         {feedbacks.map((item, index) => (

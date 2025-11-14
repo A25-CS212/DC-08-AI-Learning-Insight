@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Globe, ChevronDown } from 'lucide-react';
+import { useLocalization } from '../../hooks/useLocalization';
 
 export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState('ID');
+  const { lang, toggleLang } = useLocalization();
   const wrapperRef = useRef(null);
 
   useEffect(() => {
@@ -17,13 +18,12 @@ export default function LanguageSwitcher() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [wrapperRef]);
-  // ----------------------------------------------------
 
-  const selectLang = (lang) => {
-    setSelectedLang(lang);
+  const selectLang = (selected) => {
+    if (lang !== selected) {
+      toggleLang();
+    }
     setIsOpen(false);
-    // memanggil context bahasa di sini
-    // languageContext.setLanguage(lang);
   };
 
   return (
@@ -35,7 +35,7 @@ export default function LanguageSwitcher() {
       >
         <Globe size={20} className="text-primary-blue" />
         <span className="font-semibold text-sm text-primary-blue">
-          {selectedLang}
+          {lang}
         </span>
         <ChevronDown
           size={16}
@@ -45,6 +45,7 @@ export default function LanguageSwitcher() {
         />
       </button>
 
+      {/* Dropdown */}
       <div
         className={`absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 
                     rounded-lg shadow-xl overflow-hidden z-10 
