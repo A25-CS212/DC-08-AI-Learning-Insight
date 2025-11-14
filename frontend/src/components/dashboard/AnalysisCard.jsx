@@ -2,38 +2,48 @@ import { Info } from 'lucide-react';
 import RadarChart from '../charts/RadarChart';
 import { mockChartData } from '../../services/mockApi';
 import { useTheme } from '../../hooks/useTheme';
+import { useMemo } from 'react';
+import { mlClusterData } from '../../services/mlClusterData';
 
 export default function AnalysisCard() {
   const { theme } = useTheme();
 
-  const colorLastWeek = theme === 'light' ? '#2D3E50' : '#FFFFFF';
-  const colorThisWeek = '#1D4ED8';
+  const clusterIdToShow = 0;
 
-  const fillLastWeek = theme === 'light'
-    ? 'rgba(45, 62, 80, 0.5)'     // #2D3E50 @ 50%
-    : 'rgba(250, 249, 246, 0.5)'; // #FAF9F6 @ 50%
+  const clusterInfo = mlClusterData.clusters.find(
+    (cluster) => cluster.cluster_id === clusterIdToShow
+  );
 
-  const fillThisWeek = 'rgba(29, 78, 216, 0.5)'; // #1D4ED8 @ 50%
+  const chartData = useMemo(() => {
+    const colorLastWeek = theme === 'light' ? '#2D3E50' : '#FFFFFF';
+    const colorThisWeek = '#1D4ED8';
 
-  const chartData = {
-    labels: mockChartData.radar.labels,
-    datasets: [
-      {
-        label: 'Minggu Lalu',
-        data: mockChartData.radar.datasets[0].data,
-        borderColor: colorLastWeek,
-        backgroundColor: fillLastWeek,
-        borderWidth: 4,
-      },
-      {
-        label: 'Minggu Ini',
-        data: mockChartData.radar.datasets[1].data,
-        borderColor: colorThisWeek,
-        backgroundColor: fillThisWeek,
-        borderWidth: 4,
-      },
-    ],
-  };
+    const fillLastWeek = theme === 'light'
+      ? 'rgba(45, 62, 80, 0.5)'     // #2D3E50 @ 50%
+      : 'rgba(250, 249, 246, 0.5)'; // #FAF9F6 @ 50%
+
+    const fillThisWeek = 'rgba(29, 78, 216, 0.5)'; // #1D4ED8 @ 50%
+    return {
+      labels: mockChartData.radar.labels,
+      datasets: [
+        {
+          label: 'Minggu Lalu',
+          data: mockChartData.radar.datasets[0].data,
+          borderColor: colorLastWeek,
+          backgroundColor: fillLastWeek,
+          borderWidth: 2,
+        },
+        {
+          label: 'Minggu Ini',
+          data: mockChartData.radar.datasets[1].data,
+          borderColor: colorThisWeek,
+          backgroundColor: fillThisWeek,
+          borderWidth: 2,
+        },
+      ],
+    };
+  }, [theme]);
+
   return (
     <div className="rounded-xl bg-white p-6 shadow-md dark:bg-dark-background-card">
       <h3 className="mb-4 text-3xl font-bold text-dark-blue dark:text-white">
@@ -53,8 +63,8 @@ export default function AnalysisCard() {
           </div>
 
           <div>
-            <p className="font-bold text-2xl text-dark-blue dark:text-white">Anda adalah seorang Fast Learner</p>
-            <p className="text-sm text-dark-blue dark:text-white">Fast Learner adalah... (deskripsi)</p>
+            <p className="font-bold text-2xl text-dark-blue dark:text-white">Anda adalah seorang {clusterInfo.label}</p>
+            <p className="text-sm text-dark-blue dark:text-white">{clusterInfo.description}</p>
           </div>
         </div>
 

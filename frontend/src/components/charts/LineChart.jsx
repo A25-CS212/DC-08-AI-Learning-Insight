@@ -1,19 +1,18 @@
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip } from 'chart.js';
-import { useMemo } from 'react'; // <-- 1. Impor useMemo
+import { useMemo } from 'react';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip);
 
 export default function LineChart({ data }) {
-  // 2. Bungkus semua 'options' di dalam useMemo
   const options = useMemo(() => ({
     plugins: {
       legend: {
         position: 'bottom',
         labels: {
-          color: 'var(--color-chart-labels)', // Pakai Var CSS
+          color: 'var(--color-chart-labels)',
           font: {
-            weight: '600' // Semi-bold
+            weight: '600'
           }
         }
       },
@@ -22,31 +21,29 @@ export default function LineChart({ data }) {
       y: {
         beginAtZero: true,
         grid: {
-          color: 'var(--color-chart-grid)' // Pakai Var CSS
+          color: 'var(--color-chart-grid)'
         },
         ticks: {
-          color: 'var(--color-chart-ticks)', // Pakai Var CSS
+          color: 'var(--color-chart-ticks)',
           font: {
-            weight: '600' // Semi-bold
+            weight: '600'
           }
         }
       },
-      x: { // <-- Tambahkan styling untuk sumbu X
+      x: {
         grid: {
-          color: 'var(--color-chart-grid)' // Pakai Var CSS
+          color: 'var(--color-chart-grid)'
         },
         ticks: {
-          color: 'var(--color-chart-ticks)', // Pakai Var CSS
+          color: 'var(--color-chart-ticks)',
           font: {
-            weight: '600' // Semi-bold
+            weight: '600'
           }
         }
       }
     }
-    // 3. Array dependensi kosong: Buat 'options' ini sekali saja
   }), []);
 
-  // Penjaga jika data belum siap
   if (!data) return null;
 
   return <Line data={data} options={options} />;
